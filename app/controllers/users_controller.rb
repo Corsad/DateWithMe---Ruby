@@ -8,11 +8,13 @@ class UsersController < ApplicationController
   	@user = User.create user_params
 
   	if @user.save
-  		sesssion[:user_id] = @user.id
-  		redirect_to users_path
-  	else
-  		render 'new'
-  	end
+  		session[:user_id] = @user.id
+      flash[:success] = "Registered"
+      redirect_to users_path
+    else
+      flash.now[:error] = "Error: #{@user.errors.full_messages.to_sentence}"
+      render 'new'
+    end
   end
 
   def index
@@ -20,7 +22,7 @@ class UsersController < ApplicationController
   end
 
   private
-  	def user_params
-  		params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  	end
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 end
