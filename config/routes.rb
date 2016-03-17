@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  
+
+  get 'login' => 'session#create'
+
   root 'welcome#index'
   get 'welcome/index'
 
